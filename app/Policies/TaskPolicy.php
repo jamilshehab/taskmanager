@@ -37,7 +37,7 @@ class TaskPolicy
      */
     public function update(User $user, Task $task): bool
     {
-        return false;
+        return $user->role == 'manager';
     }
 
     /**
@@ -45,22 +45,22 @@ class TaskPolicy
      */
     public function delete(User $user, Task $task): bool
     {
-        return false;
+        return $user->role == "manager";
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Task $task): bool
-    {
-        return false;
-    }
+    // public function restore(User $user, Task $task): bool
+    // {
+    //     return false;
+    // }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Task $task): bool
-    {
-        return false;
-    }
+    // public function forceDelete(User $user, Task $task): bool
+    // {
+    //     return false;
+    // }
 }
