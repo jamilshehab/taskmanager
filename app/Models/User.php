@@ -18,9 +18,11 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
+        'role'
     ];
 
     /**
@@ -38,6 +40,7 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
+ 
     protected function casts(): array
     {
         return [
@@ -45,4 +48,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function tasks(){
+      return $this->hasMany(Task::class);
+    }
+
 }
