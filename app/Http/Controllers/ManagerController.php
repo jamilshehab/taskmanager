@@ -75,8 +75,8 @@ class ManagerController extends Controller
     public function edit(string $id)
     {
         //
-        $tasks=findOrFail($id);
-        return view('')
+        $tasks=Task::findOrFail($id);
+        return view('');
     }
 
     /**

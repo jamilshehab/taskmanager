@@ -13,8 +13,7 @@ class ManagerSeeder extends Seeder
      */
     public function run(): void
     {
-         User::create([
-         
+     User::create([   
         'name'=>'Jamil Shehab',
         'email' => 'shehab@manager.com',
         'password' => bcrypt('password'),

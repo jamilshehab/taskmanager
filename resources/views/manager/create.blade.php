@@ -3,6 +3,7 @@
     <h1 class="text-3xl font-bold text-center my-2">Create Task</h1>
     <form  method="POST" action="{{route('manager.store')}}" enctype="multipart/form-data">
     @csrf
+    @PUT
   <div class="mb-5">
     <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Task Title</label>
     <input type="text" name="title" id="mytitle" class="bg-gray-50 border border-gray-300 text-slate-900 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required />
