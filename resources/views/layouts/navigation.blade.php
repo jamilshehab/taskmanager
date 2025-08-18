@@ -16,13 +16,15 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
-                 @can('create',App\Models\Task::class)
-                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+               
+                @can('create', App\Models\Task::class)
+                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('manager.create')" :active="request()->routeIs('dashboard')">
+                        {{ __('Create Task') }}
                     </x-nav-link>
-                </div>               
-                 @endcan
+                </div>    
+                @endcan           
+      
             </div>
 
             <!-- Settings Dropdown -->
