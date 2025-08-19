@@ -23,7 +23,6 @@ class ManagerController extends Controller
         $images=Image::all();
          
         $users=User::all();
-        
         return view('manager.task',compact('tasks','users'));
     }
 
@@ -99,7 +98,7 @@ class ManagerController extends Controller
     public function destroy(string $id)
     {
         //
-        $this->authorize('delete',Task::class);
+        $this->authorize('delete', Task::class);
         $task=Task::findOrFail($id);
         dd($task);
         $task->delete();
