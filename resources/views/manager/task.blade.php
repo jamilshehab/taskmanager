@@ -51,7 +51,11 @@
                     <a href="{{route('manager.edit',$task->id)}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                 </td>
                 <td class=" py-4 ">
-                    <a href="{{route('manager.destroy',$task->id)}}" class="font-medium text-red-600  hover:underline">Delete</a>
+                    <form action="{{route('manager.destroy',$task->id)}}">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="font-medium text-red-600 hover:underline">Delete</button>
+                    </form>
                 </td>
             </tr>
              @endforeach
