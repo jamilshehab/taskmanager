@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Image;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\Authorizable;
@@ -16,9 +17,13 @@ class ManagerController extends Controller
     public function index()
     {
         //
+        $user=auth()->user();
         $this->authorize('viewAnyTasks',Task::class);
-        $tasks=Task::all();
+        $tasks=Task::where("user_id",$user->id)->paginate();
+        $images=Image::all();
+         
         $users=User::all();
+        
         return view('manager.task',compact('tasks','users'));
     }
 
@@ -38,23 +43,24 @@ class ManagerController extends Controller
     public function store(Request $request)
     {
         //
+        $user=auth()->id();
         $validated=$request->validate([
-            'title'=>'string|max:255',
+            'title'=>'string|required',
             'content'=>'string|required',
-            'images.*'=>'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images.*'=>'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             
         ]);
-
+        $validated['user_id'] = $user;
         $task=Task::create($validated);
 
         if($request->hasFile('images')){
-            $path = $request->file('images')->store('uploads', 'public');
-
+ 
             foreach($request->file('images') as $image){
-                Task::create([
+            $path = $image->store('uploads', 'public');
+            Image::create([
                     'task_id'=>$task->id,
                     'path'=>$path
-                ]);
+            ]);
             }
         }
         return redirect()->route('manager.index');
@@ -93,5 +99,10 @@ class ManagerController extends Controller
     public function destroy(string $id)
     {
         //
+        $this->authorize('delete',Task::class);
+        $task=Task::findOrFail($id);
+        dd($task);
+        $task->delete();
+        return redirect()->route('manager.index');
     }
 }

@@ -5,28 +5,55 @@
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-                <th scope="col" class="px-6 py-3">
+                <th class=" px-4 py-3">
                     Image
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th class="py-3">
                     Task Name
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th class="py-3">
                     Task Content
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th   class="py-3">
                   Task Status   
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th class="py-3">
                    Actions
                 </th>
-                
             </tr>
         </thead>
         <tbody>
             @if($tasks->count() > 0)
              @foreach($tasks as $task)
-             
+                 <tr class="bg-white border-b  dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <td class=" py-4 flex gap-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    @if($task->images->count() > 0)  
+                        @foreach($task->images as $image)
+                         <img src="{{asset('storage/' . $image->path)}}" alt="Task Image" class="w-20 h-20 rounded-full  "/>
+                         @endforeach
+                    @else
+                        <td class="px-6 py-3">
+                         No Image Displayed 
+                        </td>
+                    @endif
+                  
+                </td>
+                <td class="py-4">
+                    {{$task->title}}
+                </td>
+                <td class=" py-4">
+                    {{$task->content}}
+                </td>
+                <td class=" py-4">
+                    <span class="inline-flex items-center rounded-md bg-yellow-400 px-2 py-1 text-xs font-medium text-white inset-ring inset-ring-gray-500/10">{{$task->status}}
+                </td>
+                <td class=" py-4 ">
+                    <a href="{{route('manager.edit',$task->id)}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                </td>
+                <td class=" py-4 ">
+                    <a href="{{route('manager.destroy',$task->id)}}" class="font-medium text-red-600  hover:underline">Delete</a>
+                </td>
+            </tr>
              @endforeach
                 
             @else

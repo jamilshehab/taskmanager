@@ -19,12 +19,18 @@
                
                 @can('create', App\Models\Task::class)
                      <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('manager.create')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('manager.create')" :active="request()->routeIs('manager.create')">
                         {{ __('Create Task') }}
                     </x-nav-link>
                 </div>    
                 @endcan           
-      
+               @can('viewAny', App\Models\Task::class)
+                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('manager.index')" :active="request()->routeIs('manager.index')">
+                        {{ __('View Tasks') }}
+                    </x-nav-link>
+                </div>    
+                @endcan         
             </div>
 
             <!-- Settings Dropdown -->
