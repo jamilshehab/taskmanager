@@ -27,8 +27,8 @@
             </tr>
         </thead>
         <tbody>
-            @if($tasks->count() > 0)
-             @foreach($tasks as $task)
+            @if($assigned_tasks->count() > 0)
+             @foreach($assigned_tasks as $task)
                  <tr class="bg-white border-b  dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <td class=" py-4 flex gap-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     @if($task->images->count() > 0)  
@@ -52,11 +52,8 @@
                 {{ date('d-m-Y', strtotime($task->created_at)) }}  
                 </td>
                  <td class="py-4">
-    @if($task->status === "pending")
-        <span class="inline-flex items-center rounded-md bg-yellow-400 px-2 py-1 text-xs font-medium text-white inset-ring inset-ring-gray-500/10">
-            {{ $task->status }}
-        </span>
-    @elseif($task->status === "in progress")
+    
+    @if($task->status === "in progress")
         <span class="inline-flex items-center rounded-md bg-green-400 px-2 py-1 text-xs font-medium text-white inset-ring inset-ring-gray-500/10">
             {{ $task->status }}
         </span>
@@ -67,32 +64,22 @@
     @endif
 </td>
 
-           @if($task->status!=="pending")
-           <td class="py-4">
-                    <a href="{{route('manager.show',$task->id)}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</a>
-            </td>
-            <td class="py-4"></td>
-            <td class="py-4"></td>
-            <td class="py-4"></td>
-
-           @else
-            <td class="py-4">
+          
+            
+                @if($task->status === "resolved")
+                   <td class="py-4">
+                      <td class="py-4">
                 <a href="{{route('manager.show',$task->id)}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</a>
             </td>
-             <td class="py-4">
-               <a href="{{route('manager.assign',$task->id)}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Assign</a>
+                   </td>
+                @else
+                 
+                    <td class="py-4">
+                <a  href="{{route('agent.solve',$task->id)}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Solve</a>
             </td>
-           <td class=" py-4 ">
-             <a href="{{route('manager.edit',$task->id)}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-          </td>
-          <td class=" py-4 ">
-            <form action="{{route('manager.destroy',$task->id)}}">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="font-medium text-red-600 hover:underline">Delete</button>
-            </form>
-          </td>
-           @endif
+                @endif
+           
+     
                
             </tr>
              @endforeach
@@ -100,7 +87,7 @@
             @else
             <tr>
                 <td class="px-6 py-3" colspan="3">
-                    No tasks available
+                    No Assigned Tasks available
                 </td>
             </tr>
             @endif

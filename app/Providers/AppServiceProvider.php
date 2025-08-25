@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,6 +23,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
-    }
+   Gate::define('assign', function ($user) {
+        return $user->role === 'manager';
+    });
+
+    Gate::define('viewAssignedTickets',function($agent){
+        return $agent->role === 'agent';
+    });
+}
 }

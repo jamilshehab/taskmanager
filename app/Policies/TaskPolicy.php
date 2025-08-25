@@ -13,7 +13,7 @@ class TaskPolicy
      */
     public function viewAnyTasks(User $user): bool
     {
-        return $user->role =='manager'; //for now only manager can views all tasks 
+        return $user->role === 'manager' ; //for now only manager can views all tasks 
     }
 
     /**
@@ -38,6 +38,10 @@ class TaskPolicy
     public function update(User $user, Task $task): bool
     {
         return $user->role === 'manager' && $user->id === $task->user_id;
+    }
+
+    public function assign(User $user){
+        return $user->role === 'manager';
     }
 
     /**

@@ -32,7 +32,19 @@
                         </x-nav-link>
                     </div>
                 @endcan
-                
+                @can('viewAssignedTickets')
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('agent.index')" :active="request()->routeIs('agent.index')">
+                            {{ __('View Assigned Tickets') }}
+                        </x-nav-link>
+                    </div>
+                @endcan
+                  <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('comments.index')" :active="request()->routeIs('comments.index')">
+                            {{ __('View Comments') }}
+                        </x-nav-link>
+                    </div>
+                    
             </div>
 
             <!-- Settings Dropdown -->

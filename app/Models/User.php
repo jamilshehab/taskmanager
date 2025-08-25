@@ -18,8 +18,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'first_name',
-        'last_name',
+        'name',
         'email',
         'password',
         'role'
@@ -48,10 +47,15 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
+    public function assignTasks(){
+        return $this->belongsToMany(Task::class,'agent_task');
+    }
     public function tasks(){
       return $this->hasMany(Task::class);
     }
- 
+
+    public function comments(){
+        return $this->hasMany(Comment::class);
+    }
 
 }

@@ -17,24 +17,28 @@ class AgentSeeder extends Seeder
         User::create([
             'name'=>'Ali Ibrahim',
             'email'=>'ali@agent.com',
+            'job'=>'Sr. Software Engineer',
             'password'=>bcrypt('password'),
             'role'=>'agent'
         ]);
         User::create([
             'name'=>'Abbas Kassem',
             'email'=>'abbas@agent.com',
+            'job'=>'Social Media Manager',
             'password'=>bcrypt('password'),
             'role'=>'agent'
         ]);
          User::create([
             'name'=>'Mohammad Itani',
             'email'=>'itani@agent.com',
+            'job'=>'Marketing Specialist',
             'password'=>bcrypt('password'),
             'role'=>'agent'
         ]);
            User::create([
             'name'=>'Hassan Itani',
             'email'=>'hassan@agent.com',
+            'job'=>'Accountant',
             'password'=>bcrypt('password'),
             'role'=>'agent'
         ]);

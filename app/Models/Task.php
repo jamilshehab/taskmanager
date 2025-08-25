@@ -13,7 +13,14 @@ class Task extends Model
     public function users(){
         return $this->belongsTo(User::class);
     }
+    public function comments(){
+        return $this->hasMany(Comment::class);
+    }
+    public function agents(){
+        return $this->belongsToMany(User::class,'agent_task');
+    }
 
+    
      public function images(){
         return $this->hasMany(Image::class);
      }

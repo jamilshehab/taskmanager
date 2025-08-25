@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Image;
 use App\Models\Task;
 use App\Models\User;
+ 
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Http\Request;
+use Storage;
 
 class ManagerController extends Controller
 {
@@ -18,12 +20,13 @@ class ManagerController extends Controller
     {
         //
         $user=auth()->user();
+        $user_roles=User::all();
         $this->authorize('viewAnyTasks',Task::class);
         $tasks=Task::where("user_id",$user->id)->paginate();
         $images=Image::all();
          
         $users=User::all();
-        return view('manager.task',compact('tasks','users'));
+        return view('manager.task',compact('tasks','users','user_roles'));
     }
 
     /**
@@ -34,6 +37,27 @@ class ManagerController extends Controller
         //
         $this->authorize('create',Task::class);
         return view('manager.create');
+    }
+      
+    public function assign(string $id){
+       $this->authorize('assign');
+       $agents=User::where('role','agent')->get(); 
+        $task=Task::findOrFail($id);
+       return view('manager.assign',compact('task','agents'));
+    }
+
+    public function assignTicket(Request $request, string $id)
+    {
+        $this->authorize('assign', Task::class);
+        $task = Task::findOrFail($id);
+        $validated = $request->validate([
+            'agents' => 'array|required',
+            'agents.*' => 'exists:users,id',
+        ]);
+        $task->agents()->sync($validated['agents']);
+        $task->status='in progress'; 
+        $task->save();   
+        return redirect()->route('manager.index');
     }
 
     /**
@@ -80,8 +104,8 @@ class ManagerController extends Controller
     public function edit(string $id)
     {
         //
-        $tasks=Task::findOrFail($id);
-        return view('');
+        $task=Task::findOrFail($id);
+        return view('manager.edit',compact('task'));
     }
 
     /**
@@ -90,6 +114,40 @@ class ManagerController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $user=auth()->user();
+        $task=Task::findOrFail($id);
+         $validated=$request->validate([
+            'title'=>'string|required',
+            'content'=>'string|required',
+            'images.*'=>'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+         if(isset($validated['images'])){
+          
+            foreach ($task->images as $image){
+             //first delete the image path 
+             Storage::disk('public')->delete($image->path);
+             $image->delete();
+            }
+            //after delete the image from the database and the storage folder 
+           
+            //create a images 
+            
+            foreach ($validated['images'] as $image) {
+              $path = $image->store('uploads', 'public');
+              Image::create([
+              'task_id' => $task->id,
+              'path' => $path,
+             ]);
+           }
+           }
+       $validated['user_id']=$user->id;   
+
+        $task->update($validated);
+
+      
+       
+        return redirect()->route('manager.index');
     }
 
     /**
