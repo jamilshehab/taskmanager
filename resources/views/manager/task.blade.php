@@ -33,7 +33,7 @@
                 <td class=" py-4 flex gap-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     @if($task->images->count() > 0)  
                         @foreach($task->images as $image)
-                         <img src="{{asset('storage/' . $image->path)}}" alt="Task Image" class="w-20 h-20 rounded-full  "/>
+                         <img src="{{asset('storage/' . $image->path)}}" alt="Task Image" class="w-20 h-20 rounded-md  "/>
                           @endforeach
                     @else
                         <td class="px-6 py-3">
@@ -49,8 +49,8 @@
                     {{Str::limit($task->content,50)}}
                 </td>
                 <td class="py-4">
-                {{ date('d-m-Y', strtotime($task->created_at)) }}  
-                </td>
+                    {{ $task->created_at->format('M d, Y h:i A') }}
+                 </td>
                  <td class="py-4">
     @if($task->status === "pending")
         <span class="inline-flex items-center rounded-md bg-yellow-400 px-2 py-1 text-xs font-medium text-white inset-ring inset-ring-gray-500/10">
@@ -66,10 +66,12 @@
         </span>
     @endif
 </td>
-
+  <td class="py-4">
+                <a href="{{route('comments.create',$task->id)}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Add Note</a>
+            </td>
            @if($task->status!=="pending")
            <td class="py-4">
-                    <a href="{{route('manager.show',$task->id)}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</a>
+                    <a href="{{route('task.show',$task->id)}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</a>
             </td>
             <td class="py-4"></td>
             <td class="py-4"></td>
@@ -77,16 +79,17 @@
 
            @else
             <td class="py-4">
-                <a href="{{route('manager.show',$task->id)}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</a>
+                <a href="{{route('task.show',$task->id)}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</a>
             </td>
+              
              <td class="py-4">
                <a href="{{route('manager.assign',$task->id)}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Assign</a>
             </td>
            <td class=" py-4 ">
-             <a href="{{route('manager.edit',$task->id)}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+             <a href="{{route('task.edit',$task->id)}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
           </td>
           <td class=" py-4 ">
-            <form action="{{route('manager.destroy',$task->id)}}">
+            <form action="{{route('task.destroy',$task->id)}}"  method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="font-medium text-red-600 hover:underline">Delete</button>

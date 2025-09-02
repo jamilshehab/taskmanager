@@ -30,5 +30,25 @@ class AppServiceProvider extends ServiceProvider
     Gate::define('viewAssignedTickets',function($agent){
         return $agent->role === 'agent';
     });
+     
+    Gate::define('viewComments',function($user){
+      return $user->role === 'angent' || $user->role === 'manager';
+    });
+
+    Gate::define('createComments',function($user){
+      return $user->role === 'angent' || $user->role === 'manager';
+    });
+
+    Gate::define('viewTasks',function($user){
+        return $user->role === 'client';
+    });
+
+    Gate::define('createUsers',function($user){
+        return $user->role === 'manager';
+    });
+
+    Gate::define('createDepartments',function($user){
+        return $user->role === 'manager';
+    });
 }
 }

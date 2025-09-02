@@ -23,6 +23,6 @@ class AgentController extends Controller
         $task=Task::findOrFail($id);
         $task->status='resolved';
         $task->save();
-        return view('agent.index',compact('task'));
+        return redirect()->route('agent.index');
     }
 }

@@ -13,7 +13,7 @@ class TaskPolicy
      */
     public function viewAnyTasks(User $user): bool
     {
-        return $user->role === 'manager' ; //for now only manager can views all tasks 
+        return $user->role === 'manager';
     }
 
     /**
@@ -29,7 +29,7 @@ class TaskPolicy
      */
     public function create(User $user): bool
     {
-        return $user->role === 'manager';
+        return $user->role === 'manager' || $user->role === 'client';
     }
 
     /**
@@ -37,7 +37,7 @@ class TaskPolicy
      */
     public function update(User $user, Task $task): bool
     {
-        return $user->role === 'manager' && $user->id === $task->user_id;
+        return $user->role === 'manager'  || $user->role === 'client';
     }
 
     public function assign(User $user){
@@ -49,7 +49,7 @@ class TaskPolicy
      */
     public function delete(User $user, Task $task): bool
     {
-        return $user->role === "manager" && $user->id === $task->user_id;
+        return $user->role === "manager" || $user->role === 'client';
     }
 
     /**

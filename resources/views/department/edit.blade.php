@@ -1,31 +1,17 @@
 <x-app-layout>
-  <div class="max-w-sm min-h-screen flex flex-col justify-center mx-auto  rounded-lg px-4 py-8">
-     <h1 class="text-3xl font-bold text-center my-2">Assign Task</h1>
-    <form  method="POST" action="{{route('manager.assignTicket',$task->id)}}" enctype="multipart/form-data">
+    <div class="max-w-sm min-h-screen flex flex-col justify-center mx-auto  rounded-lg px-4 py-8">
+ <h1 class="text-3xl font-bold text-center my-2">Create Department</h1>
+
+ <form class=" " action="{{ route('department.update', $department->id) }}" method="POST">
     @csrf
     @method('PUT')
-  <div class="mb-5">
-    <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Task Title</label>
-    <input type="text" value="{{ $task->title }}" name="title" id="mytitle" class="bg-gray-50 border border-gray-300 text-slate-900 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required />
-   </div>
-  <div class="mb-5">
-    <label for="content" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Task Description</label>
-    <textarea rows="4" name="content" value="{{ $task->content }}" id="mydescription" class="bg-gray-50 border border-gray-300 text-slate-900 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>{{ $task->content }}</textarea>
-   </div>
-      <div class="mb-5">
- 
-        @if ($task->images->count() > 0)
-          <div class="flex flex-wrap gap-2">
-            @foreach ($task->images as $image)
-              <img src="{{ asset('storage/' . $image->path) }}" alt="Task Image" class="w-20 h-20 rounded-lg" />
-            @endforeach
-          </div>
-        @else
-          <p>No Images Uploaded</p>
-        @endif
-      </div>
-         
-    <div class="my-5">
+    <div class="mb-5">
+    <label for="department_title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department Name</label>
+    <input type="text" id="title" name="title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Business"  required />
+  </div>
+
+   
+      <div class="my-5">
   <div x-data="agentFilter({{$agents}})" class="relative w-full max-w-md">
   <!-- Search Input (triggers dropdown) -->
           <div class="relative">
@@ -33,7 +19,7 @@
       @focus="open=true"
       @blur="filterAgents"
       class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-      placeholder="Search Agents..."
+      placeholder="Assign Agents To This Department..."
     >
          <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
       <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -81,13 +67,11 @@
       <li class="block w-full px-4 py-3 hover:bg-gray-50 transition-colors duration-150 border-b border-gray-100 last:border-b-0"    @click="addSelectedAgents(agent.id)" >
     <div class="flex flex-row min-w-0 gap-2">
         <p class="text-base font-semibold text-gray-900 truncate" x-text="`${agent.name ?? ''} ${agent.job ?? ''} `"></p>
-        <p class="text-base font-semibold text-gray-900 truncate" x-text="`${agent.department.title ?? ''} `"></p>
-
         <div class="flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
             </svg>
-            <p class="text-sm text-gray-600" x-text="agent.department.title ?? ''"></p>
+            <p class="text-sm text-gray-600" x-text="agent?.department?.department_name ?? ''"></p>
         </div>
     </div>
       </li>
@@ -95,11 +79,10 @@
   </div>
    </div>    
     </div>  
-  <button type="submit" class="text-white w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm   px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Assign Task</button>
-    </form>
-    
-  </div>
-  
+  <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full   px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create Department</button>
+</form>
+    </div>
+   
 </x-app-layout>
+
 <script src="{{ asset('js/search.js') }}"></script>
-<script src="{{ asset('js/script.js') }}"></script>

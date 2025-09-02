@@ -1,3 +1,5 @@
+
+
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -5,9 +7,10 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    {{-- <a href="{{ route('dashboard') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    </a>
+                    </a> --}}
+                    <h6 class="text-xl font-bold">Task Management System</h6>
                 </div>
 
                 <!-- Navigation Links -->
@@ -19,7 +22,7 @@
                
                 @can('create', App\Models\Task::class)
                      <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('manager.create')" :active="request()->routeIs('manager.create')">
+                    <x-nav-link :href="route('task.create')" :active="request()->routeIs('manager.create')">
                         {{ __('Create Task') }}
                     </x-nav-link>
                 </div>    
@@ -28,23 +31,47 @@
                 @can('viewAnyTasks', App\Models\Task::class)
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('manager.index')" :active="request()->routeIs('manager.index')">
-                            {{ __('View Tasks') }}
+                            {{ __('Tasks') }}
+                        </x-nav-link>
+                    </div>
+                @endcan
+
+                @can('viewTasks')
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('client.index')" :active="request()->routeIs('manager.index')">
+                            {{ __('Tasks') }}
                         </x-nav-link>
                     </div>
                 @endcan
                 @can('viewAssignedTickets')
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('agent.index')" :active="request()->routeIs('agent.index')">
-                            {{ __('View Assigned Tickets') }}
+                            {{ __('Assigned Tickets') }}
                         </x-nav-link>
                     </div>
                 @endcan
-                  <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                 @can('viewComments')
+                      <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('comments.index')" :active="request()->routeIs('comments.index')">
-                            {{ __('View Comments') }}
+                            {{ __('Comments') }}
                         </x-nav-link>
-                    </div>
-                    
+                    </div>     
+                 @endcan
+
+                 @can('createUsers')
+                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                         <x-nav-link :href="route('manager.createUsers')" :active="request()->routeIs('manager.createUsers')">
+                             {{ __('Create Agents') }}
+                         </x-nav-link>
+                     </div>
+                 @endcan
+ @can('createUsers')
+                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                         <x-nav-link :href="route('department.create')" :active="request()->routeIs('manager.createUsers')">
+                             {{ __('Create Department') }}
+                         </x-nav-link>
+                     </div>
+                 @endcan
             </div>
 
             <!-- Settings Dropdown -->

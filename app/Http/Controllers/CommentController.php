@@ -10,10 +10,16 @@ class CommentController extends Controller
 {
     //
     public function index(){
+     $this->authorize('viewComments');
      $comments=Comment::all();
      return view('comments.index',compact('comments'));
     }
-
+  
+    public function create(string $id){
+        $this->authorize('createComments');
+        $task=Task::findOrFail($id);
+        return view('comments.comment',compact('task'));
+    }
     public function store(Request $request , string $id)
 {
     $task=Task::findOrFail($id); 
